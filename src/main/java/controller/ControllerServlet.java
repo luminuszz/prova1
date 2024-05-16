@@ -45,7 +45,6 @@ public class ControllerServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("nova.jsp");
 			rd.forward(request, response);
 		} else if (action.equals("/edit")) {
-			
 			this.getEditPage(request, response);
 		}
 		
@@ -119,9 +118,10 @@ public class ControllerServlet extends HttpServlet {
 	}
 
 	private void reset() {
-		/*
-		 * 	Aqui, você restaura os valores default no banco de dados (para efeito de testes)
-		 */
+		Db db = Db.getInstance();
+		
+		db.reset();
+		
 	}
 
 	private void create(HttpServletRequest request) {

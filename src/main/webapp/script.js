@@ -4,11 +4,23 @@
 
 // RESET
 reset = function() {
-	// Aqui você cria uma requisição AJAX POST a ControllerServlet
-	// Você repassa, com a chave 'op' o parâmetro 'RESET'
-	// Se a requisição for bem sucedida, você executa:
-	// atualizaSessao() e window.location.href = "/prova1".
-	// Se não for bem sucedida, decida o que fazer.
+	
+	const payload = {
+		op: "RESET"
+	}
+	
+	fetch("ControllerServlet", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams(payload)
+    }).then(() => {
+		atualizaSessao()
+		window.location.href = "/prova1"
+	}).catch(() => {
+		alert("Houve um erro ao resetar os dados")
+	})
 }
 
 // NOVA AULA
