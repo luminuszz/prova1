@@ -79,6 +79,8 @@ enviarEdit = function() {
 	
 	console.log(data, horario, duracao, codDisciplina, assunto)
 	
+	
+	
 if (!validaNovaAula(data, horario, duracao, codDisciplina, assunto)) {
         document.getElementById('msg-id').style.display = 'block';
         return;
@@ -104,29 +106,33 @@ if (!validaNovaAula(data, horario, duracao, codDisciplina, assunto)) {
 		atualizaSessao()
 		window.location.href = "/prova1"
 	}).catch(() => {
-		alert("Houve um erro ao criar")
+		alert("Houve um erro ao editar")
 	})
 }
 
 // DELETA UMA AULA
 deleta = function(id) {
-	// Aqui, você faz uma requisição AJAX POST a ControllerServlet e
-    // envia a chave 'op' valendo 'DELETE'. Envie, do mesmo modo, o parâmetro id
-    // Se a requisição for bem sucedida, execute atualizaSessao() e
-    // window.location.href = "/prova1"
-    // Se não for bem sucedida, decida o que fazer
-	let req = new XMLHttpRequest();
-	req.open("POST", "ControllerServlet", true);
-	req.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-	req.onreadystatechange = () => {
-		if (req.readyState == 4 && req.status == 200) {
-			atualizaSessao();
-			window.location.href = "/prova1";
-		} else {
-			// O QUE FAZER SE DEU ERRADO
-		}
+
+	const payload = {
+		id,
+		op: "DELETE"
 	}
-	req.send("op=DELETE&id=" + id);
+	
+	fetch("ControllerServlet", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams(payload)
+    }).then(() => {
+		atualizaSessao();
+	    window.location.href = "/prova1";
+	}).catch(() => {
+		alert("Houve um erro ao deletar")
+	})
+
+	
+			
 }
 
 
@@ -152,9 +158,10 @@ const atualizaSessao = function() {
 // 			VALIDAÇÕES
 
 validaNovaAula = function(data, horario, duracao, codDisciplina, assunto) {
-    // Examine os valores dos parâmetros deste método e decida se estão
-    // ou não validados. Este 'return true' provavelmente será alterado, não?
-    return true;
+  const existsValues = [data,horario,duracao, codDisciplina, assunto].every(value => !!value)
+  
+  
+    return existsValues;
 }
 
 

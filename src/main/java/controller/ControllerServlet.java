@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import db.Db;
+import errors.ResourceNotFound;
 
  @WebServlet(urlPatterns = { "/prova1", "/nova", "/edit" })
 public class ControllerServlet extends HttpServlet {
@@ -80,7 +81,7 @@ public class ControllerServlet extends HttpServlet {
 			this.update(request);
 			break;
 		case "DELETE":
-			this.delete(request);
+			this.delete(request, response);
 			break;
 		}
 	}
@@ -118,17 +119,31 @@ public class ControllerServlet extends HttpServlet {
 		db.create(aulaDto);
 	}
 
-	private void delete(HttpServletRequest request) {
-		/*
-		 * 	Recupere (de request) o parâmetro id e o use para remover a aula do banco de dados.
-		 */
+	private void delete(HttpServletRequest request , HttpServletResponse response) {
+		try {
+			
+			Db db =  Db.getInstance();
+			
+			AulaDto aulaDto = db.findById(request.getParameter("id"));
+			
+			if(aulaDto == null) {
+				throw new ResourceNotFound("aula");
+			}
+			
+			db.delete(aulaDto.id);
+			
+		}catch (Exception e) {
+			
+			if(e instanceof ResourceNotFound) {
+				response.setStatus(400);
+			}
+			 
+		}
+		
+		
 	}
 
 	private void getAula(HttpServletRequest request, HttpServletResponse response) {
-		/*
-		 *  Este método recupera um dto a partir do parâmetro id.
-		 *  Em seguida, cria um json 'manualmente' e o envia como resposta da requisição.
-		 */
 		String id = request.getParameter("id");
 		Db db = Db.getInstance();
 		AulaDto dto = db.findById(id);

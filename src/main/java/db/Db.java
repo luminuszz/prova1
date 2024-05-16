@@ -210,7 +210,7 @@ public class Db {
 		String query = "DELETE FROM AULA WHERE ID = ?";
 		try {
 			PreparedStatement pst = this.connection.prepareStatement(query);
-			pst.setString(1, id);
+			pst.setInt(1, Integer.parseInt(id));
 			pst.execute();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
