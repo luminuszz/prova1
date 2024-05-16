@@ -46,6 +46,7 @@ public class ControllerServlet extends HttpServlet {
 			HttpSession session = request.getSession();
 			Db db = Db.getInstance();
 			AulaDto dto = db.findById(id);
+				
 			session.setAttribute("dto", dto);
 			RequestDispatcher rd = request.getRequestDispatcher("edit.jsp");
 			rd.forward(request, response);
@@ -147,17 +148,23 @@ public class ControllerServlet extends HttpServlet {
 	}
 	
 	private void update(HttpServletRequest request) {
-		/*
-		 * 	Este método faz atualização do registro de uma aula.
-		 * 	Primeiro, recupere (de request) os parâmetros enviados:
-		 * 	- id
-		 * 	- codDisciplina,
-		 * 	- assunto,
-		 * 	- duracao,
-		 * 	- data,
-		 * 	- horario
-		 * 	Depois crie um dto com eles, e o envie ao banco de dados.
-		 */
+		
+		Aula newAula = new Aula();
+		
+	
+		Db db = Db.getInstance();	
+		newAula.setId(Long.parseLong(request.getParameter("id")));
+		newAula.setAssunto(request.getParameter("assunto"));
+		newAula.setData(request.getParameter("data"));
+		newAula.setDuracao(Integer.parseInt(request.getParameter("duracao")));
+		newAula.setCodDisciplina(Integer.parseInt(request.getParameter("codDisciplina")));
+		newAula.setHorario(request.getParameter("horario"));
+		
+		AulaDto aulaDto = new AulaDto(newAula);
+		
+		aulaDto.reverteFormatoData();
+		
+		db.update(aulaDto);
 	}
 
 }

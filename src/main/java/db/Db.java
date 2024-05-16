@@ -112,10 +112,7 @@ public class Db {
 				aula.setDuracao(queryResult.getInt("DURACAO"));
 				aula.setHorario(queryResult.getString("HORARIO"));
 				aula.setCodDisciplina(queryResult.getInt("COD_DISCIPLINA"));
-				
-				System.out.println(aula.getData());
-				System.out.println(aula.getHorario());
-				
+	
 				AulaDto dto = new AulaDto(aula);
 				
 				lista.add(dto);
@@ -143,18 +140,10 @@ public class Db {
 				 
 				 preQuery.setLong(1, parsedId);
 				 
-				 
 				 ResultSet queryResult = preQuery.executeQuery();
 				 
-				 Aula aula = new Aula(null);
-
-				 
-				 Boolean exsitsAula = queryResult.next();
-				 
-				 
-				 if(!exsitsAula) {
-					 throw new Exception("aula nao encontrada");
-				 }
+				 Aula aula = new Aula();
+		
 				 
 				 while (queryResult.next()) {
 					 	aula.setId(queryResult.getLong("ID"));
@@ -162,6 +151,9 @@ public class Db {
 						aula.setData(queryResult.getString("DATA"));
 						aula.setDuracao(queryResult.getInt("DURACAO"));
 						aula.setHorario(queryResult.getString("HORARIO"));
+						aula.setCodDisciplina(queryResult.getInt("COD_DISCIPLINA"));
+						
+						System.out.println(queryResult.getInt("COD_DISCIPLINA"));
 				}
 				 
 				 
@@ -170,7 +162,7 @@ public class Db {
 				 return aulaDto;
 				
 			}catch (Exception e) {
-				// TODO: handle exception
+				System.err.println(e.getLocalizedMessage());
 			}
 			return null;
 			
@@ -241,7 +233,7 @@ public class Db {
 			st.setLong(6, Long.parseLong(dto.id));
 			
 			
-			st.executeQuery();
+			st.execute();
 			
 			
 		}catch (Exception e) {

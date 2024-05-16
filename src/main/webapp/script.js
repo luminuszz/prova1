@@ -76,12 +76,36 @@ enviarEdit = function() {
 	let duracao = document.getElementById('dur-id').value;
 	let codDisciplina = document.getElementById('disc-id').value;
 	let assunto = document.getElementById('ass-id').value;
-	// Aqui, você faz uma requisição AJAX POST a ControllerServlet e
-    // envia a chave 'op' valendo 'UPDATE'. Envie, do mesmo modo, os parâmetros
-    // id, data, horario, duracao, codDisciplina e assunto.
-    // Se a requisição for bem sucedida, execute atualizaSessao() e
-    // window.location.href = "/prova1"
-    // Se não for bem sucedida, decida o que fazer
+	
+	console.log(data, horario, duracao, codDisciplina, assunto)
+	
+if (!validaNovaAula(data, horario, duracao, codDisciplina, assunto)) {
+        document.getElementById('msg-id').style.display = 'block';
+        return;
+    }
+    
+    const payload = {
+		id,
+		data,
+		horario,
+		duracao,
+		codDisciplina,
+		assunto,
+		op: "UPDATE"
+	}
+    
+	fetch("ControllerServlet", {
+    method: "POST",
+    headers: {
+        "Content-Type": "application/x-www-form-urlencoded"
+    },
+    body: new URLSearchParams(payload)
+    }).then(() => {
+		atualizaSessao()
+		window.location.href = "/prova1"
+	}).catch(() => {
+		alert("Houve um erro ao criar")
+	})
 }
 
 // DELETA UMA AULA
