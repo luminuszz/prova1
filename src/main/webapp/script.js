@@ -136,6 +136,9 @@ deleta = function(id) {
 }
 
 
+const voltarParaoIndex = function() {
+	 window.location.href = "/prova1";
+}
 
 
 const atualizaSessao = function() {
