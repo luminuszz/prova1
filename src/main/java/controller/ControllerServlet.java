@@ -138,6 +138,8 @@ public class ControllerServlet extends HttpServlet {
 		
 		AulaDto aulaDto = new AulaDto(newAula);
 		
+		aulaDto.reverteFormatoData();
+		
 		db.create(aulaDto);
 	}
 

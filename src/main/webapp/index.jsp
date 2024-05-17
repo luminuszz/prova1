@@ -29,6 +29,7 @@
 				%>
 				<div class="container-aula">
 		            <div class="container-linha1">
+		             	<div class="info">Id: <%= aula.id %> <span class="texto"></span></div>
 		                <div class="info">Data: <%= aula.data %> <span class="texto"></span></div>
 		                <div class="info">Hora: <%= aula.horario %> <span class="texto"></span></div>
 		                <div class="info">Duração(h): <%= aula.duracao %> <span class="texto"></span></div>

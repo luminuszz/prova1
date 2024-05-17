@@ -177,7 +177,6 @@ public class Db {
 		
 		try(PreparedStatement st = this.connection.prepareStatement(query)) {
 			
-			dto.reverteFormatoData();
 				
 			st.setString(1, dto.codDisciplina);
 			st.setString(2, dto.assunto);
